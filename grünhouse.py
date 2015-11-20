@@ -92,38 +92,32 @@ def instant_deviation_check(measure_type,read_count):#should work
 
 
 def actual_sequence(measure_type,read_count):
-		temp_hard=25
-		humi_hard=51
-		lumi_hard=900
 		#--------get values from serial
 		if(measure_type==temperature):
-			#sensor_arduino.write("T")
-			#read_value=sensor_arduino.readline()
+			sensor_arduino.write("T")
+			read_value=sensor_arduino.readline()
 			#print read_value
-			#read_value=read_value[1:]
-			#print("Actual Temperature "+str(read_value))
-			#temperature_act_array.append(int(read_value))
-			temperature_act_array.append(temp_hard)
+			read_value=read_value[1:]
+			print("Actual Temperature "+str(read_value))
+			temperature_act_array.append(int(read_value))
 			threshold_fuzzy(temperature,read_value)
 			dev=instant_deviation_check(temperature,read_count)
 			add_delay_from_instant_dev(temperature,dev)
 		elif(measure_type==humidity):
-			#sensor_arduino.write("H")
-			#read_value=sensor_arduino.readline()
-			#read_value=read_value[1:]
-			#print ("Actual Humidity "+str(read_value))
-			#humidity_act_array.append(int(read_value))
-			humidity_act_array.append(humi_hard)			
+			sensor_arduino.write("H")
+			read_value=sensor_arduino.readline()
+			read_value=read_value[1:]
+			print ("Actual Humidity "+str(read_value))
+			humidity_act_array.append(int(read_value))
 			threshold_fuzzy(humidity,read_value)
 			dev=instant_deviation_check(humidity,read_count)
 			add_delay_from_instant_dev(humidity,dev)
 		elif(measure_type==luminosity):
-			#sensor_arduino.write("L")
-			#read_value=sensor_arduino.readline()					 
-			#read_value=int(read_value[1:])
-			#print ("Actual Luminosity "+str(read_value))
-			#luminosity_act_array.append(int(read_value))
-			luminosity_act_array.append(lumi_hard)
+			sensor_arduino.write("L")
+			read_value=sensor_arduino.readline()					 
+			read_value=int(read_value[1:])
+			print ("Actual Luminosity "+str(read_value))
+			luminosity_act_array.append(int(read_value))
 			threshold_fuzzy(luminosity,read_value)
 			dev=instant_deviation_check(luminosity,read_count)
 			add_delay_from_instant_dev(luminosity,dev)	 		 
@@ -179,7 +173,7 @@ mqttc.on_connect = on_connect
 mqttc.on_publish = on_publish
 mqttc.on_subscribe = on_subscribe
 mqttc.connect("m2m.eclipse.org", 1883, 60)
-crange=4#changed for demo
+crange=10
 read_count=0
 #hostname="m2m.eclipse.org"
 temperature="temperature"
